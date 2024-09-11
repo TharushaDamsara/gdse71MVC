@@ -5,6 +5,7 @@
 package edu.ijse.ProjectMVC2;
 
 import edu.ijse.ProjectMVC2.db.DBConnection;
+import edu.ijse.ProjectMVC2.view.LayOutFrameFrom;
 import java.sql.SQLException;
 
 /**
@@ -16,9 +17,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        System.out.println("hello");
-        DBConnection.getInstance().getConnection();
+    public static void main(String[] args)  {
+     LayOutFrameFrom form = new  LayOutFrameFrom();
+     form.setVisible(true);
     }
     
 }
