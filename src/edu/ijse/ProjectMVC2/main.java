@@ -4,17 +4,21 @@
  */
 package edu.ijse.ProjectMVC2;
 
+import edu.ijse.ProjectMVC2.db.DBConnection;
+import java.sql.SQLException;
+
 /**
  *
  * @author tharusha
  */
-public class main {
+public class Main {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        System.out.println("hello");
+        DBConnection.getInstance().getConnection();
     }
     
 }
