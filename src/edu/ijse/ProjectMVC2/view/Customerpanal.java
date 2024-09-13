@@ -8,8 +8,6 @@ import edu.ijse.ProjectMVC2.controller.CustomerController;
 import edu.ijse.ProjectMVC2.dto.CustomerDto;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -68,6 +66,12 @@ public class Customerpanal extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Customer manage");
 
+        idtxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idtxtActionPerformed(evt);
+            }
+        });
+
         salarytxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 salarytxtActionPerformed(evt);
@@ -82,8 +86,18 @@ public class Customerpanal extends javax.swing.JPanel {
         });
 
         updatebtn.setText("Update");
+        updatebtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updatebtnMouseClicked(evt);
+            }
+        });
 
         deletbtn.setText("Delete");
+        deletbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deletbtnMouseClicked(evt);
+            }
+        });
 
         tblCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,7 +137,7 @@ public class Customerpanal extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(194, 194, 194)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -164,7 +178,7 @@ public class Customerpanal extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(deletbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
@@ -228,8 +242,20 @@ public class Customerpanal extends javax.swing.JPanel {
     }//GEN-LAST:event_salarytxtActionPerformed
 
     private void savebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savebtnMouseClicked
-      add();
+        add();
     }//GEN-LAST:event_savebtnMouseClicked
+
+    private void updatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updatebtnMouseClicked
+        update();
+    }//GEN-LAST:event_updatebtnMouseClicked
+
+    private void deletbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deletbtnMouseClicked
+        delete();
+    }//GEN-LAST:event_deletbtnMouseClicked
+
+    private void idtxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idtxtActionPerformed
+        search();
+    }//GEN-LAST:event_idtxtActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -260,7 +286,7 @@ public class Customerpanal extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 private void loadTable() {
         String columns[] = {"Customer Id", "Cutomer Name", "DOB", "Salary", "Address", "Province", "Postal Code"};
-        DefaultTableModel dtm = new DefaultTableModel(columns, 0){
+        DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -273,34 +299,111 @@ private void loadTable() {
         try {
             List<CustomerDto> customerDtos = customerController.getAllCustomer();
             for (CustomerDto dto : customerDtos) {
-                Object [] rowData = {dto.getId(), dto.getTitle()+ " " + dto.getName(), dto.getDob(), dto.getSalary(), dto.getAddress() + ", " + dto.getCity(), dto.getProvince(), dto.getPostalCode()};
+                Object[] rowData = {dto.getId(), dto.getTitle() + " " + dto.getName(), dto.getDob(), dto.getSalary(), dto.getAddress() + ", " + dto.getCity(), dto.getProvince(), dto.getPostalCode()};
                 dtm.addRow(rowData);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage())
-            ;
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
 
     }
 
     private void add() {
-      String id =  idtxt.getText();
-      String title =  titletxt.getText();
-      String name =  nametxt.getText();
-      String dob =  dobtxt.getText();
-      double salary = Double.parseDouble(salarytxt.getText());
-      String address = addresstxt.getText();
-      String city = citytxt.getText();
-      String province = provincetxt.getText();
-      String postalCode = postalCodetxt.getText();
-      
-      CustomerDto dto = new CustomerDto(id, title, name, dob, salary, address, city, province, postalCode);
+        String id = idtxt.getText();
+        String title = titletxt.getText();
+        String name = nametxt.getText();
+        String dob = dobtxt.getText();
+        double salary = Double.parseDouble(salarytxt.getText());
+        String address = addresstxt.getText();
+        String city = citytxt.getText();
+        String province = provincetxt.getText();
+        String postalCode = postalCodetxt.getText();
+
+        CustomerDto dto = new CustomerDto(id, title, name, dob, salary, address, city, province, postalCode);
         CustomerController controller = new CustomerController();
         try {
-           String resp = controller.add(dto);
+            String resp = controller.add(dto);
             JOptionPane.showMessageDialog(this, resp);
+            loadTable();
+            clearFrom();
         } catch (ClassNotFoundException | SQLException ex) {
-           JOptionPane.showMessageDialog(this, ex);
+            JOptionPane.showMessageDialog(this, ex);
         }
+    }
+
+    private void update() {
+        String id = idtxt.getText();
+        String title = titletxt.getText();
+        String name = nametxt.getText();
+        String dob = dobtxt.getText();
+        double salary = Double.parseDouble(salarytxt.getText());
+        String address = addresstxt.getText();
+        String city = citytxt.getText();
+        String province = provincetxt.getText();
+        String postalCode = postalCodetxt.getText();
+
+        CustomerDto dto = new CustomerDto(id, title, name, dob, salary, address, city, province, postalCode);
+        CustomerController controller = new CustomerController();
+        try {
+            String resp = controller.update(dto);
+            JOptionPane.showMessageDialog(this, resp);
+            loadTable();
+            clearFrom();
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+
+        }
+    }
+
+    private void delete() {
+        String id = idtxt.getText();
+        CustomerDto dto = new CustomerDto();
+        dto.setId(id);
+        CustomerController controller = new CustomerController();
+        try {
+            String resp = controller.delete(dto);
+            JOptionPane.showMessageDialog(this, resp);
+            loadTable();
+            clearFrom();
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
+
+    }
+
+    private void search() {
+        String id = idtxt.getText();
+        CustomerDto dto = new CustomerDto();
+        dto.setId(id);
+        CustomerController controller = new CustomerController();
+        try {
+            CustomerDto resp = controller.search(dto);
+            if (resp != null) {
+                titletxt.setText(resp.getTitle());
+                nametxt.setText(resp.getName());
+                dobtxt.setText(resp.getDob());
+                salarytxt.setText(resp.getSalary() + "");
+                addresstxt.setText(resp.getAddress());
+                citytxt.setText(resp.getCity());
+                provincetxt.setText(resp.getProvince());
+                postalCodetxt.setText(resp.getPostalCode());
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            JOptionPane.showMessageDialog(this, ex);
+        }
+
+    }
+
+    private void clearFrom() {
+        idtxt.setText("");
+        titletxt.setText("");
+        nametxt.setText("");
+        dobtxt.setText("");
+        salarytxt.setText("");
+        addresstxt.setText("");
+        citytxt.setText("");
+        provincetxt.setText("");
+        postalCodetxt.setText("");
+
     }
 }

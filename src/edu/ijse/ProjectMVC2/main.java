@@ -4,9 +4,7 @@
  */
 package edu.ijse.ProjectMVC2;
 
-import edu.ijse.ProjectMVC2.db.DBConnection;
 import edu.ijse.ProjectMVC2.view.LayOutFrameFrom;
-import java.sql.SQLException;
 
 /**
  *

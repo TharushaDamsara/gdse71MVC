@@ -15,7 +15,7 @@ public class CustomerModel {
     public String add(CustomerDto dto) throws ClassNotFoundException, SQLException {
 
         Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "INSERT INTO customer VALUES =(?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO customer VALUES (?,?,?,?,?,?,?,?,?)";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, dto.getId());
         preparedStatement.setString(2, dto.getTitle());
@@ -25,7 +25,7 @@ public class CustomerModel {
         preparedStatement.setString(6, dto.getAddress());
         preparedStatement.setString(7, dto.getCity());
         preparedStatement.setString(8, dto.getProvince());
-        preparedStatement.setString(1, dto.getPostalCode());
+        preparedStatement.setString(9, dto.getPostalCode());
 
         int resp = preparedStatement.executeUpdate();
         return resp > 0 ? "aded sucsessfuly" : "faild";
@@ -53,18 +53,18 @@ public class CustomerModel {
     public String delete(CustomerDto dto) throws ClassNotFoundException, SQLException {
 
         Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "DELETE FROM customer WHERE CustID=(?) ";
+        String sql = "DELETE FROM customer WHERE CustID = (?) ";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, dto.getId());
+        preparedStatement.setString(1,dto.getId());
         int resp = preparedStatement.executeUpdate();
-        return resp > 0 ? "aded sucsessfuly" : "faild";
+        return resp >0 ? "deleted sucsessfuly" : "faild";
     }
 
     public CustomerDto search(CustomerDto dto) throws ClassNotFoundException, SQLException {
         Connection connection = DBConnection.getInstance().getConnection();
         String sql = "SELECT * FROM customer WHERE CustID = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        preparedStatement.setString(1, dto.getId());
+        preparedStatement.setString(1,dto.getId());
         ResultSet resp = preparedStatement.executeQuery();
         while (resp.next()) {
             CustomerDto dtos = new CustomerDto();

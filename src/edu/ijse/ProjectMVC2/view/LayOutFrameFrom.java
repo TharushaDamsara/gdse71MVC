@@ -30,6 +30,7 @@ public class LayOutFrameFrom extends javax.swing.JFrame {
         hedderPanal = new javax.swing.JLabel();
         leftpanel = new javax.swing.JPanel();
         customerbtn = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         bodypanal = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
 
@@ -54,21 +55,35 @@ public class LayOutFrameFrom extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(204, 51, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 0));
+        jButton1.setText("Item Manage");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout leftpanelLayout = new javax.swing.GroupLayout(leftpanel);
         leftpanel.setLayout(leftpanelLayout);
         leftpanelLayout.setHorizontalGroup(
             leftpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftpanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(customerbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                .addGroup(leftpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                    .addComponent(customerbtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         leftpanelLayout.setVerticalGroup(
             leftpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(leftpanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(14, 14, 14)
                 .addComponent(customerbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(548, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(442, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout bodypanalLayout = new javax.swing.GroupLayout(bodypanal);
@@ -152,6 +167,10 @@ public class LayOutFrameFrom extends javax.swing.JFrame {
        loadCustomerform();
     }//GEN-LAST:event_customerbtnMouseClicked
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+       loadItemForm();
+    }//GEN-LAST:event_jButton1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -191,6 +210,7 @@ public class LayOutFrameFrom extends javax.swing.JFrame {
     private javax.swing.JPanel bodypanal;
     private javax.swing.JButton customerbtn;
     private javax.swing.JLabel hedderPanal;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel leftpanel;
@@ -201,6 +221,15 @@ public class LayOutFrameFrom extends javax.swing.JFrame {
            Customerpanal customerPanel = new Customerpanal();
            customerPanel.setSize(bodypanal.getWidth(), bodypanal.getHeight());
            bodypanal.add(customerPanel);
+           bodypanal.repaint();
+           bodypanal.revalidate();
+    }
+
+    private void loadItemForm() {
+        bodypanal.removeAll();
+           ItemPanal itemPanal = new ItemPanal();
+           itemPanal.setSize(bodypanal.getWidth(), bodypanal.getHeight());
+           bodypanal.add(itemPanal);
            bodypanal.repaint();
            bodypanal.revalidate();
     }
